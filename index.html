@@ -13,6 +13,9 @@
 <body>
 <h2>Tax & Service Charge Calculator</h2>
 <input type="number" id="rate" placeholder="Enter rate amount" step="0.01">
+<p>Service Charge: 10%</p>
+<p>Tax: 7%</p>
+<p>Provincial Tax: 0.99%</p>
 <p><strong>Total increase: 18.7%</strong></p>
 <button onclick="calculateTotal()">Calculate</button>
 <p id="result"></p>
@@ -20,16 +23,24 @@
 <script>
 function calculateTotal() {
     let rate = parseFloat(document.getElementById('rate').value);
-    let totalIncreaseMultiplier = 1.187;  // Ensures exactly 18.7% increase
 
     if (isNaN(rate) || rate < 0) {
         document.getElementById('result').innerText = "Please enter a valid rate amount";
         return;
     }
 
-    let total = rate * totalIncreaseMultiplier;
+    let serviceCharge = rate * 0.10;
+    let subtotal = rate + serviceCharge;
 
-    document.getElementById('result').innerText = `Total after 18.7% increase: $${total.toFixed(2)}`;
+    let tax = subtotal * 0.07;
+    let provincialTax = subtotal * 0.0099;  // Adjusted to 0.99% instead of 1%
+
+    let total = subtotal + tax + provincialTax;
+
+    // Ensures correct rounding
+    total = Math.round(total * 100) / 100;
+
+    document.getElementById('result').innerText = `Total after 10% service charge, 7% tax, and 0.99% provincial tax: $${total.toFixed(2)}`;
 }
 </script>
 </body>
