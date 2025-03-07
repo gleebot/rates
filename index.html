@@ -13,9 +13,6 @@
 <body>
 <h2>Tax & Service Charge Calculator</h2>
 <input type="number" id="rate" placeholder="Enter rate amount" step="0.01">
-<p>Service Charge: 10%</p>
-<p>Tax: 7%</p>
-<p>Provincial Tax: <strong>0.985%</strong> (Adjusted for Precision)</p>
 <p><strong>Total increase: 18.7%</strong></p>
 <button onclick="calculateTotal()">Calculate</button>
 <p id="result"></p>
@@ -29,19 +26,13 @@ function calculateTotal() {
         return;
     }
 
-    // Step 1: Apply service charge (10%)
-    let serviceCharge = rate * 0.10;
-    let subtotal = rate + serviceCharge;
+    // Use a fixed multiplier of 1.187 to ensure exactly 18.7% increase
+    let total = rate * 1.187;
 
-    // Step 2: Apply adjusted taxes (7% VAT + 0.985% Provincial Tax)
-    let tax = subtotal * 0.07;
-    let provincialTax = subtotal * 0.00985; // Adjusted to ensure exactly 18.7% increase
+    // Round to 2 decimal places to avoid floating-point errors
+    total = Math.round(total * 100) / 100;
 
-    // Step 3: Calculate final total and round correctly
-    let total = subtotal + tax + provincialTax;
-    total = Math.round(total * 100) / 100; // Final rounding to 2 decimal places
-
-    document.getElementById('result').innerText = `Total after 10% service charge, 7% tax, and 0.985% provincial tax: $${total.toFixed(2)}`;
+    document.getElementById('result').innerText = `Total after 18.7% increase: $${total.toFixed(2)}`;
 }
 </script>
 </body>
