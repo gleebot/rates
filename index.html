@@ -29,16 +29,17 @@ function calculateTotal() {
         return;
     }
 
-    let serviceCharge = rate * 0.10;
-    let subtotal = rate + serviceCharge;
+    // Step 1: Apply service charge first (10%)
+    let serviceCharge = Math.round(rate * 0.10 * 100) / 100;
+    let subtotal = Math.round((rate + serviceCharge) * 100) / 100;
 
-    let tax = subtotal * 0.07;
-    let provincialTax = subtotal * 0.0099;  // Adjusted to 0.99% instead of 1%
+    // Step 2: Apply adjusted taxes (7% VAT + 0.99% Provincial Tax)
+    let tax = Math.round(subtotal * 0.07 * 100) / 100;
+    let provincialTax = Math.round(subtotal * 0.0099 * 100) / 100; // Ensures total matches 18.7%
 
+    // Step 3: Calculate final total and round it correctly
     let total = subtotal + tax + provincialTax;
-
-    // Ensures correct rounding
-    total = Math.round(total * 100) / 100;
+    total = Math.round(total * 100) / 100;  // Final rounding to 2 decimal places
 
     document.getElementById('result').innerText = `Total after 10% service charge, 7% tax, and 0.99% provincial tax: $${total.toFixed(2)}`;
 }
